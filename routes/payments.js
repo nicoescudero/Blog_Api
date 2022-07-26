@@ -3,7 +3,7 @@ const controller = require('../controllers/payment.controller');
 
 const router = express.Router();
 
-router.get('/create-order', controller.createOrder);
+router.post('/create-order', controller.createOrder);
 router.get('/capture-order', controller.captureOrder);
 router.get('/cancel-order', controller.cancelingOrder);
 

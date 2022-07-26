@@ -1,13 +1,21 @@
 <html>
 
 <head>
-  <title>Express</title>
+  <title>mycompani.com</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <h1>Post</h1>
+  <button id="btn-buy">Buy me a coffee</button>
 </body>
-
+<script>
+  const btn = document.getElementById('btn-buy');
+  btn.addEventListener('click', async function(){
+    const response = await fetch('/create-order', { method: 'POST' });
+    const data = await response.json();
+    console.log(data);
+    window.location.href = data.links[1].href;
+  });
+</script>
 </html>

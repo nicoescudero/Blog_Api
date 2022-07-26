@@ -3,41 +3,61 @@ const axios = require('axios');
 const controller = { };
 
 controller.createOrder = async (req, res) => {
-  const order = {
-    intent: 'CAPTURE',
-    purchase_units: [
-      {
-        amount: {
-          description: 'Buy a coffee',
-          currency_code: 'USD',
-          value: '1.00',
+  try {
+    const order = {
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            description: 'Buy a coffee',
+            currency_code: 'USD',
+            value: '1.00',
+          },
         },
+      ],
+      application_context: {
+        brand_name: 'mycompani.com',
+        landing_page: 'LOGIN',
+        user_action: 'PAY_NOW',
+        return_url: `${process.env.HOST}/capture-order`,
+        cancel_url: `${process.env.HOST}/cancel-order`,
       },
-    ],
-    application_context: {
-      brand_name: 'mycompani.com',
-      landing_page: 'LOGIN',
-      user_action: 'PAY_NOW',
-      return_url: 'http://localhost:3000/capture-order',
-      cancel_url: 'http://localhost:3000/cancel-order',
-    },
-  };
-  const response = await axios.post(`${process.env.URL}/v2/checkout/order`, order, {
+    };
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    const auth = await axios.post(`${process.env.URL}/v1/oauth2/token`, params, {
+      headers: {
+        Content_type: 'application/x-www-form-urlencoded',
+      },
+      auth: {
+        username: process.env.PAYAPL_CLIENT_ID,
+        password: process.env.PAYAPL_SECRET_KEY,
+      },
+    });
+    const response = await axios.post(`${process.env.URL}/v2/checkout/orders`, order, {
+      headers: {
+        Authorization: `BEARER ${auth.data.access_token}`,
+      },
+    });
+    return res.send(response.data);
+  } catch (error) {
+    return res.send(error);
+  }
+};
+
+controller.captureOrder = async (req, res) => {
+  const { token } = req.query;
+  await axios.post(`${process.env.URL}/v2/checkout/orders/${token}/capture`, {}, {
     auth: {
       username: process.env.PAYAPL_CLIENT_ID,
       password: process.env.PAYAPL_SECRET_KEY,
     },
   });
-  console.log(response);
-  res.send('Creating Order');
-};
-
-controller.captureOrder = (req, res) => {
-  res.send('Capturing order');
+  res.redirect('/payed.html');
 };
 
 controller.cancelingOrder = (req, res) => {
-  res.send('Canceling order');
+  res.redirect('/');
 };
 
 module.exports = controller;

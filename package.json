@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
-    "lint": "eslint . *.js --fix"
+    "lint:js": "eslint . --ext .js",
+    "lint:js:fix": "npm run lint:js -- --fix"
   },
   "dependencies": {
     "axios": "^0.27.2",
