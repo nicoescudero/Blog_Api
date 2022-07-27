@@ -11,7 +11,8 @@ const postSchema = new Schema({
   },
   date: {
     type: Date,
-    required: true,
+    value: new Date(),
+    required: false,
   },
 });
 

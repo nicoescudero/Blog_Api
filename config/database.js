@@ -7,12 +7,12 @@ else uri = URI_DB_PRODUCTION;
 
 const connect = async () => {
   try {
-    const connection = await mongoose.connect(uri, {
+    await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
     });
-    return connection;
+    return true;
   } catch (error) {
     return error;
   }
