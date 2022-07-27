@@ -4,9 +4,11 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config();
 
+const { connect } = require('./config/database');
 const indexRouter = require('./routes/index');
 
 const app = express();
+connect();
 
 app.use(logger('dev'));
 app.use(express.json());
