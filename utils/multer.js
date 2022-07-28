@@ -18,6 +18,6 @@ exports.upload = multer({
     const mimetype = types.test(file.mimetype);
     const extname = types.test(path.extname(file.originalname));
     if (mimetype && extname) next(null, true);
-    next('error to upload image with multer');
+    next('error uploading image with multer');
   },
 }).single('image');
