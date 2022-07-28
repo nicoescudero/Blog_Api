@@ -1,8 +1,7 @@
 const axios = require('axios');
+const { ErrorObject } = require('../helpers/error');
 
-const controller = { };
-
-controller.createOrder = async (req, res) => {
+exports.createOrder = async () => {
   try {
     const order = {
       intent: 'CAPTURE',
@@ -30,8 +29,8 @@ controller.createOrder = async (req, res) => {
         Content_type: 'application/x-www-form-urlencoded',
       },
       auth: {
-        username: process.env.PAYAPL_CLIENT_ID,
-        password: process.env.PAYAPL_SECRET_KEY,
+        username: process.env.PAYPAL_CLIENT_ID,
+        password: process.env.PAYPAL_SECRET_KEY,
       },
     });
     const response = await axios.post(`${process.env.URL}/v2/checkout/orders`, order, {
@@ -39,25 +38,31 @@ controller.createOrder = async (req, res) => {
         Authorization: `BEARER ${auth.data.access_token}`,
       },
     });
-    return res.send(response.data);
+    return response.data;
   } catch (error) {
-    return res.send(error);
+    throw new ErrorObject(error.message, error.statusCode || 500);
   }
 };
 
-controller.captureOrder = async (req, res) => {
-  const { token } = req.query;
-  await axios.post(`${process.env.URL}/v2/checkout/orders/${token}/capture`, {}, {
-    auth: {
-      username: process.env.PAYAPL_CLIENT_ID,
-      password: process.env.PAYAPL_SECRET_KEY,
-    },
-  });
-  res.redirect('/payed.html');
+exports.captureOrder = async (req, res) => {
+  try {
+    const { token } = req.query;
+    await axios.post(`${process.env.URL}/v2/checkout/orders/${token}/capture`, {}, {
+      auth: {
+        username: process.env.PAYPAL_CLIENT_ID,
+        password: process.env.PAYPAL_SECRET_KEY,
+      },
+    });
+    return res.redirect('/payed.html');
+  } catch (error) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
 };
 
-controller.cancelingOrder = (req, res) => {
-  res.redirect('/');
+exports.cancelingOrder = (res) => {
+  try {
+    return res.redirect('/');
+  } catch (error) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
 };
-
-module.exports = controller;

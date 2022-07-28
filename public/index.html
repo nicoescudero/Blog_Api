@@ -15,7 +15,7 @@
     const response = await fetch('/create-order', { method: 'POST' });
     const data = await response.json();
     console.log(data);
-    window.location.href = data.links[1].href;
+    window.location.href = data.body.links[1].href;
   });
 </script>
 </html>
