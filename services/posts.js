@@ -26,7 +26,7 @@ exports.getPostById = async (req) => {
 exports.getAllPost = async () => {
   try {
     const response = await Post.find();
-    if (response.length !== 0) return response;
+    if (response.length > 0) return response;
     throw new ErrorObject('Posts not found', 404);
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500);

@@ -5,8 +5,8 @@ const {
 
 const router = express.Router();
 
-router.get('/:id', get);
 router.get('/all', all);
+router.get('/:id', get);
 router.post('/', post);
 router.put('/:id', put);
 router.delete('/:id', destroy);
