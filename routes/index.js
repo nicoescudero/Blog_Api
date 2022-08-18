@@ -9,5 +9,6 @@ router.get('/', (req, res) => {
 
 router.use('/', require('./payments'));
 router.use('/posts', require('./posts'));
+router.use('/auth', require('./auth'));
 
 module.exports = router;
