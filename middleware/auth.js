@@ -13,8 +13,7 @@ exports.verifyUser = async (req, res, next) => {
       );
       return httpError;
     }
-    next();
-    return true;
+    return next();
   } catch (error) {
     return res.status(401).send({
       code: 401,
