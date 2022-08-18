@@ -1,4 +1,5 @@
 const express = require('express');
+const { verifyUser } = require('../middleware/auth');
 const {
   get, post, put, destroy, all,
 } = require('../controllers/posts');
@@ -6,9 +7,9 @@ const {
 const router = express.Router();
 
 router.get('/all', all);
-router.get('/:id', get);
-router.post('/', post);
-router.put('/:id', put);
-router.delete('/:id', destroy);
+router.get('/:id', verifyUser, get);
+router.post('/', verifyUser, post);
+router.put('/:id', verifyUser, put);
+router.delete('/:id', verifyUser, destroy);
 
 module.exports = router;
