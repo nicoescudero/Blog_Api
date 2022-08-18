@@ -3,7 +3,7 @@ const { validateJWT } = require('../helpers/jwt');
 
 exports.verifyUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.headers.authorization.split(' ')[1];
     const response = await validateJWT(token);
     if (response === false) {
       const error = new Error();
@@ -18,7 +18,7 @@ exports.verifyUser = async (req, res, next) => {
   } catch (error) {
     return res.status(401).send({
       code: 401,
-      message: `[Token not provided] - [Access - Denied]: ${error.message}`,
+      message: `[Unauthorized User] - [Access - Denied]: ${error.message}`,
     });
   }
 };
