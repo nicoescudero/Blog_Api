@@ -5,14 +5,17 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   body: {
     type: String,
     required: true,
   },
   date: {
-    type: Date,
-    value: new Date(),
-    required: false,
+    type: String,
+    required: true,
   },
 });
 
