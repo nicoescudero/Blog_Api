@@ -8,14 +8,14 @@ exports.createOrder = async () => {
       purchase_units: [
         {
           amount: {
-            description: 'Buy a coffee',
+            description: 'Invitar un cafe',
             currency_code: 'USD',
             value: '1.00',
           },
         },
       ],
       application_context: {
-        brand_name: 'mycompani.com',
+        brand_name: process.env.LIVE_URL,
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
         return_url: `${process.env.HOST}/capture-order`,
@@ -53,7 +53,7 @@ exports.captureOrder = async (req, res) => {
         password: process.env.PAYPAL_SECRET_KEY,
       },
     });
-    return res.redirect('/payed.html');
+    return res.redirect(`${process.env.LIVE_URL}thanks`);
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
@@ -61,7 +61,7 @@ exports.captureOrder = async (req, res) => {
 
 exports.cancelingOrder = (res) => {
   try {
-    return res.redirect('/');
+    return res.redirect(`${process.env.LIVE_URL}`);
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
