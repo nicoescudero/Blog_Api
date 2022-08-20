@@ -1,21 +1,11 @@
 <html>
 
 <head>
-  <title>mycompani.com</title>
+  <title>blog-dev-ne.netlify.app</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
-  <h1>Post</h1>
-  <button id="btn-buy">Buy me a coffee</button>
+  <h1>Express BLOG API</h1>
 </body>
-<script>
-  const btn = document.getElementById('btn-buy');
-  btn.addEventListener('click', async function(){
-    const response = await fetch('/create-order', { method: 'POST' });
-    const data = await response.json();
-    console.log(data);
-    window.location.href = data.body.links[1].href;
-  });
-</script>
 </html>

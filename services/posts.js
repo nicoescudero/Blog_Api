@@ -1,15 +1,16 @@
+const moment = require('moment');
+
 const { ErrorObject } = require('../helpers/error');
 const Post = require('../models/post');
 
 exports.createPost = async (req) => {
   try {
     const { title, image, body } = req.body;
-    const date = new Date();
     const post = new Post({
       title,
       image,
       body,
-      date: `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`,
+      date: `${moment().format('LL')}`,
     });
     await post.save();
     return post;
@@ -45,12 +46,11 @@ exports.putPost = async (req) => {
     const { title, image, body } = req.body;
     const post = await Post.findById(id);
     if (!post) throw new ErrorObject('Post not found', 404);
-    const date = new Date();
     await post.update({
       title,
       image,
       body,
-      date: `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`,
+      date: `${moment().format('LL')}`,
     });
     await post.save();
     return post;
