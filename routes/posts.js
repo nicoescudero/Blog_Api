@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/all', cors({ origin: 'https://blog-dev-ne.netlify.app/', optionsSuccessStatus: 200 }), all);
+router.get('/all', cors(), all);
 router.get('/:id', verifyUser, get);
 router.post('/', verifyUser, post);
 router.put('/:id', verifyUser, put);
