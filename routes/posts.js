@@ -1,12 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const { verifyUser } = require('../middleware/auth');
+
 const {
   get, post, put, destroy, all,
 } = require('../controllers/posts');
 
 const router = express.Router();
 
-router.get('/all', all);
+router.get('/all', cors({ origin: 'https://blog-dev-ne.netlify.app/', optionsSuccessStatus: 200 }), all);
 router.get('/:id', verifyUser, get);
 router.post('/', verifyUser, post);
 router.put('/:id', verifyUser, put);
