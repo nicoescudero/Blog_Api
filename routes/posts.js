@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const { verifyUser } = require('../middleware/auth');
 
 const {
@@ -8,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.get('/all', cors(), all);
+router.get('/all', all);
 router.get('/:id', verifyUser, get);
 router.post('/', verifyUser, post);
 router.put('/:id', verifyUser, put);

@@ -12,7 +12,7 @@ exports.nodemail = async (req) => {
     </ul>
     `;
     const transport = nodemailer.createTransport({
-      host: `${process.env.HOST}`,
+      host: `${process.env.HOST_EMAIL}`,
       port: 587,
       secure: false,
       auth: {
